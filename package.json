@@ -1,0 +1,34 @@
+{
+  "name": "event-source-stream",
+  "version": "0.0.0",
+  "description": "EventSource implemented in node as a readable stream",
+  "main": "index.js",
+  "dependencies": {
+    "split2": "^0.1.2",
+    "request": "^2.36.0"
+  },
+  "devDependencies": {
+    "tape": "^2.13.3"
+  },
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mafintosh/event-source-stream"
+  },
+  "keywords": [
+    "event",
+    "source",
+    "stream",
+    "client",
+    "readable",
+    "html5"
+  ],
+  "author": "Mathias Buus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mafintosh/event-source-stream/issues"
+  },
+  "homepage": "https://github.com/mafintosh/event-source-stream"
+}
