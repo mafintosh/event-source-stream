@@ -24,7 +24,7 @@ module.exports = function(url, opts) {
     req = request(url)
 
     req.on('error', function(err) {
-      parse.emit('error', err)
+      if (!opts.retry) parse.emit('error', err)
     })
 
     req.on('complete', function() {
