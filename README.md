@@ -6,6 +6,9 @@
 npm install event-source-stream
 ```
 
+[![build status](http://img.shields.io/travis/mafintosh/event-source-stream.svg?style=flat)](http://travis-ci.org/mafintosh/event-source-stream)
+![dat](http://img.shields.io/badge/Development%20sponsored%20by-dat-green.svg?style=flat)
+
 ## Usage
 
 ``` js
