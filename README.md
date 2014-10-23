@@ -30,6 +30,18 @@ ess('http://server-sent-events-demo.herokuapp.com/update', {retry:false}).pipe(.
 ess('http://server-sent-events-demo.herokuapp.com/update', {retry:10000}).pipe(...)
 ```
 
+## Browser support
+
+It also works in the browser using browserify
+
+``` js
+var ess = require('event-source-stream') // will use EventSource behind the scene
+
+ess.on('data', function(data) {
+  console.log('recevied event in the browser', data)
+})
+```
+
 ## License
 
 MIT
