@@ -1,6 +1,6 @@
 {
   "name": "event-source-stream",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "EventSource implemented in node as a readable stream",
   "main": "index.js",
   "dependencies": {
