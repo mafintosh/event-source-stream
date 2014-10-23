@@ -37,9 +37,10 @@ It also works in the browser using browserify
 ``` js
 var ess = require('event-source-stream') // will use EventSource behind the scene
 
-ess.on('data', function(data) {
-  console.log('recevied event in the browser', data)
-})
+ess('http://server-sent-events-demo.herokuapp.com/update')
+  .on('data', function(data) {
+    console.log('recevied event in the browser', data)
+  })
 ```
 
 ## License
