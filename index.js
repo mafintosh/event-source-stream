@@ -5,6 +5,16 @@ module.exports = function(url, opts) {
   if (!opts) opts = {}
   if (typeof opts.retry !== 'number' && opts.retry !== false) opts.retry = 3000
 
+  var json = !!opts.json
+  var decode = function (data) {
+    try {
+      if (json) return JSON.parse(data)
+      return data
+    } catch (err) {
+      return undefined
+    }
+  }
+
   var buf = ''
   var req
   var timeout
@@ -14,7 +24,7 @@ module.exports = function(url, opts) {
       if (!buf) return
       var data = buf
       buf = ''
-      return data
+      return decode(data)
     }
     if (line.indexOf('data: ') === 0) buf += (buf ? '\n' : '') + line.slice(6)
   })
