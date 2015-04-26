@@ -26,6 +26,10 @@ module.exports = function(url, opts) {
     if (rs.listeners('error').length) rs.emit('error', err)
   }
 
+  es.onopen = function () {
+    rs.emit('open')
+  }
+
   var destroyed = false
   rs.destroy = function() {
     if (destroyed) return

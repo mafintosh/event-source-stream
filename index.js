@@ -49,6 +49,10 @@ module.exports = function(url, opts) {
       parse.emit('retry')
     })
 
+    req.on('response', function () {
+      parse.emit('open')
+    })
+
     req.pipe(parse, {end:false})
   }
 
