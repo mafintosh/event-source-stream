@@ -1,5 +1,6 @@
 var request = require('request')
 var split = require('split2')
+var once = require('once')
 
 module.exports = function(url, opts) {
   if (!opts) opts = {}
@@ -18,6 +19,7 @@ module.exports = function(url, opts) {
   var buf = ''
   var req
   var timeout
+  var opened = false
 
   var parse = split(function(line) {
     if (!line) {
@@ -33,11 +35,7 @@ module.exports = function(url, opts) {
     buf = ''
     req = request(url)
 
-    req.on('error', function(err) {
-      if (!opts.retry) parse.emit('error', err)
-    })
-
-    req.on('complete', function() {
+    var onclose = once(function () {
       if (destroyed) return
 
       if (!opts.retry) {
@@ -49,8 +47,19 @@ module.exports = function(url, opts) {
       parse.emit('retry')
     })
 
-    req.on('response', function () {
-      parse.emit('open')
+    req.on('error', function(err) {
+      if (!opts.retry) parse.emit('error', err)
+      onclose()
+    })
+
+    req.on('complete', onclose)
+
+    req.on('response', function (res) {
+      if (!opened) {
+        parse.emit('open')
+        opened = true
+      }
+      res.on('end', onclose)
     })
 
     req.pipe(parse, {end:false})
