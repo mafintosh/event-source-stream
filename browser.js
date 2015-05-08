@@ -35,7 +35,7 @@ module.exports = function(url, opts) {
     if (destroyed) return
     destroyed = true
     es.close()
-    parse.emit('close')
+    rs.emit('close')
   }
 
   return rs
