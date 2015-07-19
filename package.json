@@ -9,10 +9,12 @@
     "split2": "^0.1.2"
   },
   "devDependencies": {
-    "tape": "^2.13.3"
+    "tape": "^2.13.3",
+    "zuul": "^3.2.0"
   },
   "scripts": {
-    "test": "tape test.js"
+    "test": "tape test-server.js",
+    "test-browser": "zuul --ui tape --local 9966 -- test.js"
   },
   "repository": {
     "type": "git",
