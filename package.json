@@ -9,12 +9,13 @@
     "split2": "^0.1.2"
   },
   "devDependencies": {
+    "browserify": "^11.0.0",
+    "electron-prebuilt": "^0.30.0",
     "tape": "^2.13.3",
-    "zuul": "^3.2.0"
+    "testron": "^1.2.0"
   },
   "scripts": {
-    "test": "tape test-server.js",
-    "test-browser": "zuul --ui tape --local 9966 -- test.js"
+    "test": "node test-server.js & browserify test.js | testron && kill $!"
   },
   "repository": {
     "type": "git",
