@@ -62,7 +62,7 @@ module.exports = function (url, opts) {
       res.on('end', onclose)
     })
 
-    req.pipe(parse, { end: false })
+    req.pipe(parse, {end: false})
   }
 
   connect()
