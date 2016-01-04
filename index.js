@@ -2,7 +2,7 @@ var request = require('request')
 var split = require('split2')
 var once = require('once')
 
-module.exports = function(url, opts) {
+module.exports = function (url, opts) {
   if (!opts) opts = {}
   if (typeof opts.retry !== 'number' && opts.retry !== false) opts.retry = 3000
 
@@ -21,7 +21,7 @@ module.exports = function(url, opts) {
   var timeout
   var opened = false
 
-  var parse = split(function(line) {
+  var parse = split(function (line) {
     if (!line) {
       if (!buf) return
       var data = buf
@@ -31,7 +31,7 @@ module.exports = function(url, opts) {
     if (line.indexOf('data: ') === 0) buf += (buf ? '\n' : '') + line.slice(6)
   })
 
-  var connect = function() {
+  var connect = function () {
     buf = ''
     req = request(url)
 
@@ -47,7 +47,7 @@ module.exports = function(url, opts) {
       parse.emit('retry')
     })
 
-    req.on('error', function(err) {
+    req.on('error', function (err) {
       if (!opts.retry) parse.emit('error', err)
       onclose()
     })
@@ -62,13 +62,13 @@ module.exports = function(url, opts) {
       res.on('end', onclose)
     })
 
-    req.pipe(parse, {end:false})
+    req.pipe(parse, { end: false })
   }
 
   connect()
 
   var destroyed = false
-  parse.destroy = function() {
+  parse.destroy = function () {
     if (destroyed) return
     destroyed = true
     clearTimeout(timeout)
