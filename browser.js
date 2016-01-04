@@ -1,10 +1,11 @@
+/*globals EventSource */
 var stream = require('stream')
 
-module.exports = function(url, opts) {
+module.exports = function (url, opts) {
   if (!opts) opts = {}
 
   var es = new EventSource(url)
-  var rs = new stream.Readable({objectMode:true})
+  var rs = new stream.Readable({objectMode: true})
 
   var json = !!opts.json
   var decode = function (data) {
@@ -16,13 +17,13 @@ module.exports = function(url, opts) {
     }
   }
 
-  rs._read = function() {}
+  rs._read = function () {}
 
-  es.onmessage = function(e) {
+  es.onmessage = function (e) {
     rs.push(decode(e.data))
   }
 
-  es.onerror = function(err) {
+  es.onerror = function (err) {
     if (rs.listeners('error').length) rs.emit('error', err)
   }
 
@@ -31,7 +32,7 @@ module.exports = function(url, opts) {
   }
 
   var destroyed = false
-  rs.destroy = function() {
+  rs.destroy = function () {
     if (destroyed) return
     destroyed = true
     es.close()

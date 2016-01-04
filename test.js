@@ -2,7 +2,7 @@ var tape = require('tape')
 var http = require('http')
 var ess = require('./')
 
-var server = http.createServer(function(req, res) {
+var server = http.createServer(function (req, res) {
   if (req.url === '/multiline') {
     res.write('data: a\n')
     res.write('data: b\n\n')
@@ -16,35 +16,35 @@ var server = http.createServer(function(req, res) {
   }
 })
 
-server.listen(0, function() {
+server.listen(0, function () {
   server.unref()
-  var addr = 'http://localhost:'+server.address().port
+  var addr = 'http://localhost:' + server.address().port
 
-  tape('events', function(t) {
-    var stream = ess(addr+'/basic')
+  tape('events', function (t) {
+    var stream = ess(addr + '/basic')
 
-    stream.on('data', function(data) {
+    stream.on('data', function (data) {
       stream.destroy()
       t.same(data, 'hello world')
       t.end()
     })
   })
 
-  tape('multiline events', function(t) {
-    var stream = ess(addr+'/multiline')
+  tape('multiline events', function (t) {
+    var stream = ess(addr + '/multiline')
 
-    stream.on('data', function(data) {
+    stream.on('data', function (data) {
       stream.destroy()
       t.same(data, 'a\nb')
       t.end()
     })
   })
 
-  tape('retry', function(t) {
-    var stream = ess(addr+'/crash', {retry:100})
+  tape('retry', function (t) {
+    var stream = ess(addr + '/crash', {retry: 100})
     var cnt = 2
 
-    stream.on('data', function(data) {
+    stream.on('data', function (data) {
       if (!--cnt) {
         stream.destroy()
         t.end()
