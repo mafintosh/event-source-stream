@@ -58,6 +58,8 @@ module.exports = function(url, opts) {
       if (!opened) {
         parse.emit('open')
         opened = true
+      } else {
+        parse.emit('reconnect')
       }
       res.on('end', onclose)
     })
