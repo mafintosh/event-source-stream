@@ -9,10 +9,11 @@
     "split2": "^0.1.2"
   },
   "devDependencies": {
+    "standard": "^5.4.1",
     "tape": "^2.13.3"
   },
   "scripts": {
-    "test": "tape test.js"
+    "test": "standard && tape test.js"
   },
   "repository": {
     "type": "git",
