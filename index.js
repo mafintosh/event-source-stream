@@ -32,8 +32,10 @@ module.exports = function(url, opts) {
   })
 
   var connect = function() {
+    var reqOpts = opts.request || {}
+    reqOpts.url = url
     buf = ''
-    req = request(url)
+    req = request(reqOpts)
 
     var onclose = once(function () {
       if (destroyed) return
