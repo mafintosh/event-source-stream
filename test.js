@@ -1,55 +1,50 @@
+process.browser = true
 var tape = require('tape')
-var http = require('http')
 var ess = require('./')
 
-var server = http.createServer(function(req, res) {
-  if (req.url === '/multiline') {
-    res.write('data: a\n')
-    res.write('data: b\n\n')
-  }
-  if (req.url === '/basic') {
-    res.write('data: hello world\n\n')
-  }
-  if (req.url === '/crash') {
-    res.write('data: test\n\n')
-    res.end()
-  }
+var port = process.env['PORT'] || 9966
+var addr = 'http://localhost:'+port
+var opts = {withCredentials:true}
+
+tape('open', function (t) {
+  var stream = ess(addr+'/basic', opts)
+
+  stream.on('open', function () {
+    stream.destroy()
+    t.ok(true, 'open has been called')
+    t.end()
+  })
 })
 
-server.listen(0, function() {
-  server.unref()
-  var addr = 'http://localhost:'+server.address().port
+tape('events', function(t) {
+  var stream = ess(addr+'/basic', opts)
 
-  tape('events', function(t) {
-    var stream = ess(addr+'/basic')
-
-    stream.on('data', function(data) {
-      stream.destroy()
-      t.same(data, 'hello world')
-      t.end()
-    })
+  stream.on('data', function(data) {
+    stream.destroy()
+    t.same(data, 'hello world')
+    t.end()
   })
+})
 
-  tape('multiline events', function(t) {
-    var stream = ess(addr+'/multiline')
+tape('multiline events', function(t) {
+  var stream = ess(addr+'/multiline', opts)
 
-    stream.on('data', function(data) {
-      stream.destroy()
-      t.same(data, 'a\nb')
-      t.end()
-    })
+  stream.on('data', function(data) {
+    stream.destroy()
+    t.same(data, 'a\nb')
+    t.end()
   })
+})
 
-  tape('retry', function(t) {
-    var stream = ess(addr+'/crash', {retry:100})
-    var cnt = 2
+tape('retry', function(t) {
+  var stream = ess(addr+'/crash', {retry:100,withCredentials:true})
+  var cnt = 2
 
-    stream.on('data', function(data) {
-      if (!--cnt) {
-        stream.destroy()
-        t.end()
-      }
-      t.same(data, 'test')
-    })
+  stream.on('data', function(data) {
+    if (!--cnt) {
+      stream.destroy()
+      t.end()
+    }
+    t.same(data, 'test')
   })
 })

@@ -2,8 +2,9 @@ var stream = require('stream')
 
 module.exports = function(url, opts) {
   if (!opts) opts = {}
-
-  var es = new EventSource(url)
+  var es = new EventSource(url, {
+    withCredentials: opts.withCredentials === true
+  })
   var rs = new stream.Readable({objectMode:true})
 
   var json = !!opts.json
