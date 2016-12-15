@@ -1,4 +1,4 @@
-var stream = require('stream')
+var stream = require('readable-stream')
 
 module.exports = function(url, opts) {
   if (!opts) opts = {}
